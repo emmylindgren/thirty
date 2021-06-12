@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Thirty</string>
+    <string name="throw_dices">Throw</string>
+    <string name="collect_points">Collect points</string>
+    <string name="group_color">Group color</string>
+    <string name="round_score_text">Round score: </string>
+    <string name="round_score">0</string>
+    <string name="total_score_text">Total score: </string>
+    <string name="total_score">0</string>
+
+    <string name="dice_image1">Dice nr 1</string>
+    <string name="dice_image2">Dice nr 2</string>
+    <string name="dice_image3">Dice nr 3</string>
+    <string name="dice_image4">Dice nr 4</string>
+    <string name="dice_image5">Dice nr 5</string>
+    <string name="dice_image6">Dice nr 6</string>
+
+    <string name="button_blue">Blue group</string>
+    <string name="button_green">Green group</string>
+    <string name="button_yellow">Yellow group</string>
+    <string name="button_red">Red group</string>
+    <string name="button_purple">Purple group</string>
+    <string name="button_brown">Brown group</string>
+
 </resources>

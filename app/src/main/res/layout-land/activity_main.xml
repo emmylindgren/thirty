@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:background="@color/white"
         android:src="@drawable/one"
         app:layout_constraintEnd_toStartOf="@id/dice2"
@@ -28,6 +29,7 @@
         app:layout_constraintEnd_toStartOf="@id/dice3"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:src="@drawable/two"
         android:background="@color/white"
         />
@@ -39,8 +41,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/dice2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/group_color_text"
         android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:src="@drawable/three"
         android:background="@color/white"
         />
@@ -53,7 +56,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dice1"
         app:layout_constraintEnd_toStartOf="@id/dice5"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:src="@drawable/four"
         android:background="@color/white"
         />
@@ -66,7 +70,8 @@
         app:layout_constraintStart_toEndOf="@id/dice4"
         app:layout_constraintTop_toBottomOf="@id/dice2"
         app:layout_constraintEnd_toStartOf="@id/dice6"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:src="@drawable/five"
         android:background="@color/white"
         />
@@ -78,8 +83,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/dice5"
         app:layout_constraintTop_toBottomOf="@id/dice3"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/dice3"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
         android:src="@drawable/six"
         android:background="@color/white"
         />
@@ -90,9 +96,10 @@
         android:id="@+id/group_color_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/dice4"
-        app:layout_constraintTop_toBottomOf="@id/dice4"
-        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@id/dice3"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="25dp"
         android:text="@string/group_color"
         android:textSize="20sp"
         android:textColor="@color/black"
@@ -107,7 +114,7 @@
         android:backgroundTint="#47B7E7"
         app:layout_constraintStart_toEndOf="@id/group_color_text"
         app:layout_constraintEnd_toStartOf="@id/green_button"
-        app:layout_constraintTop_toBottomOf="@id/dice5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/red_button"
         android:layout_marginTop="15dp"
         />
@@ -121,7 +128,7 @@
         android:backgroundTint="#00F791"
         app:layout_constraintStart_toEndOf="@id/blue_button"
         app:layout_constraintEnd_toEndOf="@id/yellow_button"
-        app:layout_constraintTop_toBottomOf="@id/dice5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/purple_button"
         android:layout_marginTop="15dp"
         />
@@ -135,7 +142,7 @@
         android:backgroundTint="#F7F100"
         app:layout_constraintStart_toEndOf="@id/green_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dice5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/brown_button"
         android:layout_marginTop="15dp"
         />
@@ -198,6 +205,7 @@
         app:layout_constraintStart_toStartOf="@id/group_color_text"
         app:layout_constraintBottom_toTopOf="@id/total_score_headline"
         android:layout_marginTop="20dp"
+        android:textColor="@color/black"
         />
 
     <TextView
@@ -210,6 +218,7 @@
         app:layout_constraintTop_toBottomOf="@id/red_button"
         app:layout_constraintBottom_toTopOf="@id/total_score"
         android:layout_marginTop="20dp"
+        android:textColor="@color/black"
         />
 
     <TextView
@@ -220,7 +229,8 @@
         android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/round_score_headline"
         app:layout_constraintStart_toStartOf="@id/round_score_headline"
-        app:layout_constraintBottom_toTopOf="@id/spinner"
+        app:layout_constraintBottom_toTopOf="@id/throw_dices"
+        android:textColor="@color/black"
 
         />
 
@@ -233,38 +243,37 @@
         app:layout_constraintStart_toStartOf="@id/round_score"
         app:layout_constraintTop_toBottomOf="@id/round_score"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/spinner"
+        app:layout_constraintBottom_toTopOf="@id/throw_dices"
+        android:textColor="@color/black"
         />
     <!-- End Score information rows -->
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="360dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/dice6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/collect_points"
+        app:layout_constraintTop_toBottomOf="@id/dice4"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteY="583dp" />
 
     <Button
         android:id="@+id/throw_dices"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginStart="5dp"
         android:text="@string/throw_dices"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/collect_points"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/total_score_headline" />
 
     <Button
         android:id="@+id/collect_points"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="5dp"
         android:text="@string/collect_points"
         app:layout_constraintBottom_toBottomOf="parent"
