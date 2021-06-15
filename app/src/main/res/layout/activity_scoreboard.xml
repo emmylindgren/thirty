@@ -56,74 +56,44 @@
         app:layout_constraintEnd_toEndOf="@id/scoreboard_round">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/results_textView_portrait"
             android:text="@string/low"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style ="@style/results_textView_portrait"
             android:text="@string/_4"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_5"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_6"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_7"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_8"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_9"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_10"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_11"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/_12"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
     </LinearLayout>
 
@@ -138,83 +108,53 @@
 
         <TextView
             android:id="@+id/score_low"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_low"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_4"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_5"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_6"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_7"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_8"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_9"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_10"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_11"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
         <TextView
             android:id="@+id/score_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style= "@style/results_textView_portrait"
             android:text="@string/score_12"
-            android:textSize="16sp"
-            android:layout_marginTop="@dimen/margin_scoreboard"
             />
 
     </LinearLayout>
