@@ -15,11 +15,21 @@ public class Dice {
         diceColor= Constants.WHITE;
     }
 
-    public int getDiceId(){ return diceId;}
+    public int getDiceId(){return diceId;}
 
     public int getDiceValue(){return diceValue;}
 
     public int getDiceColor(){return diceColor;}
+
+    public void setDiceColor(int color){
+        if(color == diceColor){
+            diceColor= Constants.WHITE;
+        }
+        else{
+            diceColor=color;
+        }
+
+    }
 
     //Only rolls uncolored dices, AKA white dices.
     public void rollDice(){

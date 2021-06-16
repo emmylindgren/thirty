@@ -18,6 +18,12 @@ public class ThrowCounter {
         return throwsAreUp;
     }
 
+    public boolean firstThrowsBeenMade(){
+        if(nrOfThrows==0) {
+            return false;
+        }
+        return true;
+    }
 
     public void resetThrows(){
         nrOfThrows=0;

@@ -9,6 +9,7 @@ public class ChosenColor {
     public ChosenColor() {
         colorButtonId =0;
         oldColorButtonId=0;
+        chosenColor= Constants.WHITE;
     }
 
     public int getChosenColor() {

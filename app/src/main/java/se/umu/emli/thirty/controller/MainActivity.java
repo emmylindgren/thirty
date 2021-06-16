@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton dice3;
     private ImageButton dice4;
     private ImageButton dice5;
-    private ImageButton dice6;*/
-
+    private ImageButton dice6;
+*/
     private ChosenColor chosenColor;
 
     private Button throwDiceButton;
@@ -56,7 +56,36 @@ public class MainActivity extends AppCompatActivity {
                 new Dice(R.id.dice6)
         ));
 
+        setUpDiceListeners();
+        setUpColorListeners();
+        setUpSpinner();
+
+
+        //Tar in en int för att underlätta vid rotation.
+        throwCounter = new ThrowCounter(0);
         chosenColor = new ChosenColor();
+
+        //Listener for throw dices button. If button is clicked @throwDices is called.
+        throwDiceButton = findViewById(R.id.throw_dices);
+        throwDiceButton.setOnClickListener(v -> throwDices());
+
+        //Listener for the collect points button. If button is clicked @collectPoints is called.
+        collectPointsButton=findViewById(R.id.collect_points);
+        collectPointsButton.setOnClickListener(v -> collectPoints());
+
+    }
+
+    private void setUpSpinner() {
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.rounds_array, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        // se mer om spinner och hur vi hämtar info från den: https://developer.android.com/guide/topics/ui/controls/spinner
+    }
+
+    private void setUpColorListeners() {
         findViewById(R.id.blue_button).setOnClickListener( v -> setChosenColor(R.id.blue_button,
                 Constants.BLUE));
         findViewById(R.id.green_button).setOnClickListener( v -> setChosenColor(R.id.green_button,
@@ -69,28 +98,15 @@ public class MainActivity extends AppCompatActivity {
                 Constants.PURPLE));
         findViewById(R.id.brown_button).setOnClickListener( v -> setChosenColor(R.id.brown_button,
                 Constants.BROWN));
+    }
 
-
-        Spinner spinner = findViewById(R.id.spinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.rounds_array, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        // se mer om spinner och hur vi hämtar info från den: https://developer.android.com/guide/topics/ui/controls/spinner
-
-        //Tar in en int för att underlätta vid rotation.
-        throwCounter = new ThrowCounter(0);
-
-        //Listener for throw dices button. If button is clicked @throwDices is called.
-        throwDiceButton = findViewById(R.id.throw_dices);
-        throwDiceButton.setOnClickListener(v -> throwDices());
-
-        //Listener for the collect points button. If button is clicked @collectPoints is called.
-        collectPointsButton=findViewById(R.id.collect_points);
-        collectPointsButton.setOnClickListener(v -> collectPoints());
-
+    private void setUpDiceListeners() {
+        findViewById(R.id.dice1).setOnClickListener(v -> setDiceColor(diceBank.get(0)));
+        findViewById(R.id.dice2).setOnClickListener(v -> setDiceColor(diceBank.get(1)));
+        findViewById(R.id.dice3).setOnClickListener(v -> setDiceColor(diceBank.get(2)));
+        findViewById(R.id.dice4).setOnClickListener(v -> setDiceColor(diceBank.get(3)));
+        findViewById(R.id.dice5).setOnClickListener(v -> setDiceColor(diceBank.get(4)));
+        findViewById(R.id.dice6).setOnClickListener(v -> setDiceColor(diceBank.get(5)));
     }
 
     private void setChosenColor(int buttonId, int color){
@@ -105,6 +121,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         chosenColor.setOldColorButtonId(buttonId);
+    }
+
+    private void setDiceColor(Dice dice){
+        if(throwCounter.firstThrowsBeenMade()){
+            dice.setDiceColor(chosenColor.getChosenColor());
+            updateDice(dice);
+        }
+        else{
+            Toast toast = Toast.makeText(this,"You have not thrown your" +
+                    " dices yet! Cheater! ", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     /**
