@@ -6,16 +6,16 @@ import java.util.concurrent.ThreadLocalRandom;
  * MODEL CLASS -- Do not change UI elements here
  */
 public class Dice {
-    private final int diceNr;
+    private final int diceId;
     private int diceValue;
     private int diceColor;
 
-    public Dice(int diceNr) {
-        this.diceNr = diceNr;
+    public Dice(int diceId) {
+        this.diceId = diceId;
         diceColor= Constants.WHITE;
     }
 
-    public int getDiceNr(){ return diceNr;}
+    public int getDiceId(){ return diceId;}
 
     public int getDiceValue(){return diceValue;}
 

@@ -1,10 +1,13 @@
 package se.umu.emli.thirty.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -12,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import se.umu.emli.thirty.R;
+import se.umu.emli.thirty.model.Constants;
 import se.umu.emli.thirty.model.Dice;
 import se.umu.emli.thirty.model.ThrowCounter;
 
@@ -21,14 +25,14 @@ import se.umu.emli.thirty.model.ThrowCounter;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Dice> diceBank = new ArrayList<>(Arrays.asList(
-            new Dice(1),
-            new Dice(2),
-            new Dice(3),
-            new Dice(4),
-            new Dice(5),
-            new Dice(6)
-    ));
+    private ArrayList<Dice> diceBank;
+
+   /* private ImageButton dice1;
+    private ImageButton dice2;
+    private ImageButton dice3;
+    private ImageButton dice4;
+    private ImageButton dice5;
+    private ImageButton dice6;*/
 
     private Button throwDiceButton;
     private Button collectPointsButton;
@@ -39,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        diceBank = new ArrayList<>(Arrays.asList(
+                new Dice(R.id.dice1),
+                new Dice(R.id.dice2),
+                new Dice(R.id.dice3),
+                new Dice(R.id.dice4),
+                new Dice(R.id.dice5),
+                new Dice(R.id.dice6)
+        ));
 
         Spinner spinner = findViewById(R.id.spinner);
 
@@ -60,8 +73,13 @@ public class MainActivity extends AppCompatActivity {
         collectPointsButton=findViewById(R.id.collect_points);
         collectPointsButton.setOnClickListener(v -> collectPoints());
 
+
+
     }
 
+    /**
+     * Throws the dices and updates image for dices accordingly.
+     */
     private void throwDices(){
 
         if(throwCounter.throwsAreUp()){
@@ -70,13 +88,99 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
         }
         else{
-            //varje tärning ska rullas. för varje i dicebank --> rulla & uppdatera bilderna = egen metod.
-            diceBank.get(1).rollDice();
-
-            // detta eventuellt kan få vara i throwcounter när man kollar om de är slut så kan
-            //man uppa?
-            throwCounter.upNrOfThrows();
+            for(Dice dice : diceBank){
+                dice.rollDice();
+                updateDice(dice);
+            }
         }
+    }
+
+    /**
+     * Updates the dice image, value and color.
+     * @param dice, the dice to be updated, with new value and color.
+     */
+    private void updateDice(Dice dice){
+
+        Drawable newDiceImage = getNewDiceImage(dice);
+
+        ImageButton image = findViewById(dice.getDiceId());
+        image.setImageDrawable(newDiceImage);
+    }
+
+    /**
+     * Gets the new image for the dice.
+     * @param dice, the dice for which a new image is to be found.
+     * @return a Drawable to be set for the dice.
+     */
+    private Drawable getNewDiceImage(Dice dice){
+        int value = dice.getDiceValue();
+        int color = dice.getDiceColor();
+        String newDiceImageName = "";
+
+        switch (value){
+            case 1:
+                newDiceImageName= updateDiceColor("one", color);
+                break;
+            case 2:
+                newDiceImageName= updateDiceColor("two", color);
+                break;
+            case 3:
+                newDiceImageName= updateDiceColor("three", color);
+                break;
+            case 4:
+                newDiceImageName= updateDiceColor("four", color);
+                break;
+            case 5:
+                newDiceImageName= updateDiceColor("five", color);
+                break;
+            case 6:
+                newDiceImageName= updateDiceColor("six", color);
+                break;
+        }
+
+        return ResourcesCompat.getDrawable(getResources(),
+                getResources().getIdentifier(newDiceImageName,"drawable",
+                        this.getPackageName()), null);
+    }
+
+    /**
+     * Forms a string of value and color put together, which is the ID for the new image of the
+     * dice.
+     * @param value, a string which contains the value of the dice.
+     * @param color, a int representing the color of the dice.
+     * @return a string which represents the updated image for the dice. 
+     */
+    private String updateDiceColor(String value, int color){
+
+        StringBuilder builder = new StringBuilder();
+
+        switch (color){
+            case Constants.WHITE:
+                break;
+            case Constants.BLUE:
+                builder.append("blue");
+                break;
+            case Constants.GREEN:
+                builder.append("green");
+                break;
+            case Constants.YELLOW:
+                builder.append("yellow");
+                break;
+            case Constants.RED:
+                builder.append("red");
+                break;
+            case Constants.PURPLE:
+                builder.append("purple");
+                break;
+            case Constants.BROWN:
+                builder.append("brown");
+                break;
+            default:
+                System.out.println("Something went wrong in colors.");
+                break;
+        }
+
+        return builder.append(value).toString();
     }
 
     private void collectPoints(){

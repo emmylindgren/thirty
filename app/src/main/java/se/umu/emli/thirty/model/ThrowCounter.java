@@ -14,12 +14,10 @@ public class ThrowCounter {
 
     public boolean throwsAreUp() {
         checkThrows();
+        nrOfThrows++;
         return throwsAreUp;
     }
 
-    public void upNrOfThrows() {
-        nrOfThrows++;
-    }
 
     public void resetThrows(){
         nrOfThrows=0;
