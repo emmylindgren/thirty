@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import se.umu.emli.thirty.R;
+import se.umu.emli.thirty.model.ChosenColor;
 import se.umu.emli.thirty.model.Constants;
 import se.umu.emli.thirty.model.Dice;
 import se.umu.emli.thirty.model.ThrowCounter;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton dice5;
     private ImageButton dice6;*/
 
+    private ChosenColor chosenColor;
+
     private Button throwDiceButton;
     private Button collectPointsButton;
     private ThrowCounter throwCounter;
@@ -52,6 +55,21 @@ public class MainActivity extends AppCompatActivity {
                 new Dice(R.id.dice5),
                 new Dice(R.id.dice6)
         ));
+
+        chosenColor = new ChosenColor();
+        findViewById(R.id.blue_button).setOnClickListener( v -> setChosenColor(R.id.blue_button,
+                Constants.BLUE));
+        findViewById(R.id.green_button).setOnClickListener( v -> setChosenColor(R.id.green_button,
+                Constants.GREEN));
+        findViewById(R.id.yellow_button).setOnClickListener( v -> setChosenColor(R.id.yellow_button,
+                Constants.YELLOW));
+        findViewById(R.id.red_button).setOnClickListener( v -> setChosenColor(R.id.red_button,
+                Constants.RED));
+        findViewById(R.id.purple_button).setOnClickListener( v -> setChosenColor(R.id.purple_button,
+                Constants.PURPLE));
+        findViewById(R.id.brown_button).setOnClickListener( v -> setChosenColor(R.id.brown_button,
+                Constants.BROWN));
+
 
         Spinner spinner = findViewById(R.id.spinner);
 
@@ -73,8 +91,20 @@ public class MainActivity extends AppCompatActivity {
         collectPointsButton=findViewById(R.id.collect_points);
         collectPointsButton.setOnClickListener(v -> collectPoints());
 
+    }
 
+    private void setChosenColor(int buttonId, int color){
+        chosenColor.setChosenColor(color);
+        chosenColor.setColorButtonId(buttonId);
+        ImageButton newColor = findViewById(buttonId);
+        newColor.setImageResource(R.drawable.check);
 
+        if(chosenColor.hasOldColorButton()){
+            ImageButton oldColorButton = findViewById(chosenColor.getOldColorButtonId());
+            oldColorButton.setImageResource(android.R.color.transparent);
+        }
+
+        chosenColor.setOldColorButtonId(buttonId);
     }
 
     /**
@@ -148,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
      * dice.
      * @param value, a string which contains the value of the dice.
      * @param color, a int representing the color of the dice.
-     * @return a string which represents the updated image for the dice. 
+     * @return a string which represents the updated image for the dice.
      */
     private String updateDiceColor(String value, int color){
 
