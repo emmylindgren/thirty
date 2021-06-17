@@ -6,9 +6,9 @@ import androidx.core.content.res.ResourcesCompat;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import se.umu.emli.thirty.R;
 import se.umu.emli.thirty.model.ChosenColor;
 import se.umu.emli.thirty.model.Constants;
 import se.umu.emli.thirty.model.Dice;
+import se.umu.emli.thirty.model.PointCounter;
 import se.umu.emli.thirty.model.ThrowCounter;
 
 /**
@@ -27,19 +28,11 @@ import se.umu.emli.thirty.model.ThrowCounter;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Dice> diceBank;
-
-   /* private ImageButton dice1;
-    private ImageButton dice2;
-    private ImageButton dice3;
-    private ImageButton dice4;
-    private ImageButton dice5;
-    private ImageButton dice6;
-*/
     private ChosenColor chosenColor;
+    private PointCounter pointCounter;
 
-    private Button throwDiceButton;
-    private Button collectPointsButton;
     private ThrowCounter throwCounter;
+    private Spinner spinner;
 
 
     @Override
@@ -61,30 +54,37 @@ public class MainActivity extends AppCompatActivity {
         setUpSpinner();
 
 
-        //Tar in en int för att underlätta vid rotation.
+        pointCounter = new PointCounter();
         throwCounter = new ThrowCounter(0);
         chosenColor = new ChosenColor();
 
         //Listener for throw dices button. If button is clicked @throwDices is called.
-        throwDiceButton = findViewById(R.id.throw_dices);
-        throwDiceButton.setOnClickListener(v -> throwDices());
+        findViewById(R.id.throw_dices).setOnClickListener(v -> throwDices());
+
 
         //Listener for the collect points button. If button is clicked @collectPoints is called.
-        collectPointsButton=findViewById(R.id.collect_points);
-        collectPointsButton.setOnClickListener(v -> collectPoints());
+        findViewById(R.id.collect_points).setOnClickListener(v -> collectPoints());
 
     }
 
+    /**
+     * Sets up spinner for choosing which round to be played.
+     */
     private void setUpSpinner() {
-        Spinner spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.rounds_array, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         // se mer om spinner och hur vi hämtar info från den: https://developer.android.com/guide/topics/ui/controls/spinner
+
     }
 
+    /**
+     * Sets up listeners for the color buttons. If they are clicked then that color is set to
+     * be chosen.
+     */
     private void setUpColorListeners() {
         findViewById(R.id.blue_button).setOnClickListener( v -> setChosenColor(R.id.blue_button,
                 Constants.BLUE));
@@ -100,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 Constants.BROWN));
     }
 
+    /**
+     * Sets up listeners for the dices. If they are clicked then the dice is colored.
+     */
     private void setUpDiceListeners() {
         findViewById(R.id.dice1).setOnClickListener(v -> setDiceColor(diceBank.get(0)));
         findViewById(R.id.dice2).setOnClickListener(v -> setDiceColor(diceBank.get(1)));
@@ -109,6 +112,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.dice6).setOnClickListener(v -> setDiceColor(diceBank.get(5)));
     }
 
+    /**
+     * Sets the chosen color to that of the users choice, and updates the button
+     * with a checkmark.If an old color is chosen that button is unchecked.
+     * @param buttonId, the button that represents the color.
+     * @param color, the color to be set.
+     */
     private void setChosenColor(int buttonId, int color){
         chosenColor.setChosenColor(color);
         chosenColor.setColorButtonId(buttonId);
@@ -123,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
         chosenColor.setOldColorButtonId(buttonId);
     }
 
+    /**
+     * Sets dice color to the chosen color of the moment.
+     * If user tries to color dices before they have been thrown the dice is not colored.
+     * @param dice, the dice which is to be colored.
+     */
     private void setDiceColor(Dice dice){
         if(throwCounter.firstThrowsBeenMade()){
             dice.setDiceColor(chosenColor.getChosenColor());
@@ -158,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
      * @param dice, the dice to be updated, with new value and color.
      */
     private void updateDice(Dice dice){
-
         Drawable newDiceImage = getNewDiceImage(dice);
 
         ImageButton image = findViewById(dice.getDiceId());
@@ -242,7 +255,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void collectPoints(){
-        //nollställning av counter här, eller de får vi göra i points.
+        // just nu om man klickar en gång till på räkna så blir round point = 0. bra men lägger ju
+        //värdet i hashmapen i pointcounter. 
+        //TODO: Fixa så man ej kan trycka så den räknar flera gånger för en omgång. Kanske fixas av->
+        // TODO: Uppdatera spinnern så de alternativet ej finnns med.
+        String text = spinner.getSelectedItem().toString();
+        System.out.println(text);
+
+        pointCounter.countRoundPoint(text, diceBank);
+        updatePoints();
+        throwCounter.resetThrows();
+        clearDiceColors();
+    }
+
+    private void updatePoints(){
+        TextView totalScore = findViewById(R.id.total_score);
+        TextView roundScore = findViewById(R.id.round_score);
+
+        totalScore.setText(pointCounter.getTotalPointsString());
+        roundScore.setText(pointCounter.getLatestRoundPointsString());
+    }
+
+    private void clearDiceColors(){
+        for (Dice dice: diceBank){
+            dice.setDiceColor(Constants.WHITE);
+        }
     }
 
 }

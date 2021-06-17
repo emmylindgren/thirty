@@ -27,6 +27,7 @@ public class ThrowCounter {
 
     public void resetThrows(){
         nrOfThrows=0;
+        throwsAreUp=false;
     }
 
     private void checkThrows(){
