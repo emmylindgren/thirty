@@ -2,8 +2,9 @@ package se.umu.emli.thirty.model;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * MODEL CLASS -- Do not change UI elements here
+/** Dice model class. Keeps track of dice and which id, value and color belongs to that dice.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
  */
 public class Dice {
     private final int diceId;
@@ -21,6 +22,10 @@ public class Dice {
 
     public int getDiceColor(){return diceColor;}
 
+    /**
+     * Sets the dice color.
+     * @param color which to be set.
+     */
     public void setDiceColor(int color){
         if(color == diceColor){
             diceColor= Constants.WHITE;
@@ -28,25 +33,24 @@ public class Dice {
         else{
             diceColor=color;
         }
-
     }
 
-    //Only rolls uncolored dices, AKA white dices.
+    /**
+     * Rolls the dice if and only if the dice is colored white, AKA uncolored.
+     */
     public void rollDice(){
         if(diceIsNotColored()){
             this.diceValue = ThreadLocalRandom.current().nextInt(1, 7);
         }
     }
 
-    public void colorDice(int diceColor){this.diceColor= diceColor;}
-
+    /**
+     * Checks if the dice is colored. The dice is only colored if the color of the dice is
+     * anything other than white.
+     * @return boolean to tell if the dice is colored or not.
+     */
     private boolean diceIsNotColored(){
-        if(diceColor== Constants.WHITE){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return diceColor == Constants.WHITE;
     }
 
 }

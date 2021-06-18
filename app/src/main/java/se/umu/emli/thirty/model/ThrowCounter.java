@@ -1,5 +1,10 @@
 package se.umu.emli.thirty.model;
 
+/** ThrowCounter model class. Keeps track of how many throws of the dices has been made. A max of
+ * 3 throws is set before the throws are up.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class ThrowCounter {
     public int nrOfThrows;
     public int maxNrOfThrows;

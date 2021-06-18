@@ -3,6 +3,10 @@ package se.umu.emli.thirty.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/** PointCounter model class. Keeps track of and calculates points for each round, and total points.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class PointCounter {
     private int totalPoints;
     private int latestRoundPoints;
@@ -28,33 +32,43 @@ public class PointCounter {
         colorPoints.put(Constants.BROWN,0);
     }
 
+    /**
+     * Counts the points of the dices for the selected round. For round "low" all dices are counted
+     * independently of colors. But for other rounds the points are sorted into color points and
+     * then counts the color points separately to make sure no color is cheating.
+     *
+     * Adds that round point to arraylist of round points to keep track of, updates total and latest
+     * round points.
+     * @param round, a string containing the selected round.
+     * @param dices, a list of dices which the points are to be counted.
+     */
     public void countRoundPoint(String round, ArrayList<Dice> dices){
         this.dices = dices;
-        int score;
+        int point;
 
         if(round.equals("Low")){
-            score = countLowRound();
+            point = countLowRound();
         }
         else{
             int roundNr = Integer.parseInt(round);
             sortColorPoints();
-            score = countColorPoints(roundNr);
+            point = countColorPoints(roundNr);
         }
 
-        roundPoints.put(round,score);
-        totalPoints+= score;
-        latestRoundPoints= score;
+        roundPoints.put(round,point);
+        totalPoints+= point;
+        latestRoundPoints= point;
     }
 
     private int countLowRound(){
-        int score= 0;
+        int point= 0;
 
         for (Dice dice : dices){
             if(dice.getDiceValue()<4){
-                score += dice.getDiceValue();
+                point += dice.getDiceValue();
             }
         }
-        return score;
+        return point;
     }
 
     private void sortColorPoints(){
@@ -68,6 +82,12 @@ public class PointCounter {
         }
     }
 
+    /**
+     * Checks each color to se if points are equal to the chosen round number, or a multiple
+     * of the chosen round number. If they are the points are added to the round point.
+     * @param roundNr, the chosen round number.
+     * @return the collected round points of all colors that passed.
+     */
     private int countColorPoints(int roundNr){
         int points = 0;
         int colorPoint;

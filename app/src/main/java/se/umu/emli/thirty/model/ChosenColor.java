@@ -1,6 +1,10 @@
 package se.umu.emli.thirty.model;
 
-
+/** Chosen color model class. Keeps track of chosen color, which id that color belongs to
+ * and which id was previously the chosen color.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class ChosenColor {
     private int chosenColor;
     private int colorButtonId;
@@ -37,9 +41,6 @@ public class ChosenColor {
     }
 
     public boolean hasOldColorButton(){
-        if(oldColorButtonId==0 || oldColorButtonId == colorButtonId){
-            return false;
-        }
-        return true;
+        return oldColorButtonId != 0 && oldColorButtonId != colorButtonId;
     }
 }

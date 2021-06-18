@@ -21,9 +21,9 @@ import se.umu.emli.thirty.model.Dice;
 import se.umu.emli.thirty.model.PointCounter;
 import se.umu.emli.thirty.model.ThrowCounter;
 
-/**
- * Controller CLASS -- Do not change make calculation here,
- * only control the model and UI
+/** Main activity controller class. Throws dices, collects and keeps track of scores.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ThrowCounter throwCounter;
     private Spinner spinner;
+    private ArrayList<String> rounds;
 
 
     @Override
@@ -53,14 +54,12 @@ public class MainActivity extends AppCompatActivity {
         setUpColorListeners();
         setUpSpinner();
 
-
         pointCounter = new PointCounter();
         throwCounter = new ThrowCounter(0);
         chosenColor = new ChosenColor();
 
         //Listener for throw dices button. If button is clicked @throwDices is called.
         findViewById(R.id.throw_dices).setOnClickListener(v -> throwDices());
-
 
         //Listener for the collect points button. If button is clicked @collectPoints is called.
         findViewById(R.id.collect_points).setOnClickListener(v -> collectPoints());
@@ -71,14 +70,31 @@ public class MainActivity extends AppCompatActivity {
      * Sets up spinner for choosing which round to be played.
      */
     private void setUpSpinner() {
+        rounds = new ArrayList<>(Arrays.asList(
+                "Low",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12"
+        ));
         spinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.rounds_array, android.R.layout.simple_spinner_item);
+        makeSpinner();
+
+    }
+
+    /**
+     * Makes a spinner out of the rounds arraylist.
+     */
+    private void makeSpinner(){
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,rounds);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        // se mer om spinner och hur vi hämtar info från den: https://developer.android.com/guide/topics/ui/controls/spinner
-
     }
 
     /**
@@ -143,8 +159,7 @@ public class MainActivity extends AppCompatActivity {
             updateDice(dice);
         }
         else{
-            Toast toast = Toast.makeText(this,"You have not thrown your" +
-                    " dices yet! Cheater! ", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this,R.string.cheater, Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -155,8 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private void throwDices(){
 
         if(throwCounter.throwsAreUp()){
-            Toast toast = Toast.makeText(this,"You have exceeded" +
-                    " your number of throws for this round. Collect your points!", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this,R.string.collect_your_points, Toast.LENGTH_SHORT);
             toast.show();
         }
         else{
@@ -254,21 +268,32 @@ public class MainActivity extends AppCompatActivity {
         return builder.append(value).toString();
     }
 
+    /**
+     * Collects the points of dices if the user has thrown the dices at least once.
+     */
     private void collectPoints(){
-        // just nu om man klickar en gång till på räkna så blir round point = 0. bra men lägger ju
-        //värdet i hashmapen i pointcounter. 
-        //TODO: Fixa så man ej kan trycka så den räknar flera gånger för en omgång. Kanske fixas av->
-        // TODO: Uppdatera spinnern så de alternativet ej finnns med.
-        String text = spinner.getSelectedItem().toString();
-        System.out.println(text);
 
-        pointCounter.countRoundPoint(text, diceBank);
-        updatePoints();
-        throwCounter.resetThrows();
-        clearDiceColors();
+        if(!throwCounter.firstThrowsBeenMade()){
+            Toast toast = Toast.makeText(this,R.string.cheater, Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else{
+            String text = spinner.getSelectedItem().toString();
+
+            pointCounter.countRoundPoint(text, diceBank);
+            updatePointsInView();
+            throwCounter.resetThrows();
+            clearDiceColors();
+
+            rounds.remove(text);
+            makeSpinner();
+        }
     }
 
-    private void updatePoints(){
+    /**
+     * Updates the points in the view for the user to see.
+     */
+    private void updatePointsInView(){
         TextView totalScore = findViewById(R.id.total_score);
         TextView roundScore = findViewById(R.id.round_score);
 
@@ -276,6 +301,9 @@ public class MainActivity extends AppCompatActivity {
         roundScore.setText(pointCounter.getLatestRoundPointsString());
     }
 
+    /**
+     * Clears all dice colors.
+     */
     private void clearDiceColors(){
         for (Dice dice: diceBank){
             dice.setDiceColor(Constants.WHITE);

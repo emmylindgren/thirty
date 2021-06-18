@@ -1,5 +1,9 @@
 package se.umu.emli.thirty.model;
 
+/** Constants model class. Keeps track of colors and which int value they are.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class Constants {
 
     public static final int WHITE = 0;
