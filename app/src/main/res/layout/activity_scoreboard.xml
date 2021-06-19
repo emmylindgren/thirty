@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="@id/scoreboard_score">
 
         <TextView
-            android:id="@+id/score_low"
+            android:id="@+id/score_Low"
             style= "@style/results_textView_portrait"
             android:text="@string/score_low"
             />
@@ -173,7 +173,7 @@
         />
 
     <TextView
-        android:id="@+id/total_score_scoreboard"
+        android:id="@+id/score_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/total_score_scoreboard"

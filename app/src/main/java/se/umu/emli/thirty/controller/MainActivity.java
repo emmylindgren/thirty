@@ -3,6 +3,7 @@ package se.umu.emli.thirty.controller;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         ));
         spinner = findViewById(R.id.spinner);
         makeSpinner();
-
     }
 
     /**
@@ -273,7 +273,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void collectPoints(){
 
-        if(!throwCounter.firstThrowsBeenMade()){
+        if(rounds.isEmpty()){
+            goToScoreBoard();
+        }
+        else if(!throwCounter.firstThrowsBeenMade()){
             Toast toast = Toast.makeText(this,R.string.cheater, Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -284,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
             updatePointsInView();
             throwCounter.resetThrows();
             clearDiceColors();
+
 
             rounds.remove(text);
             makeSpinner();
@@ -310,4 +314,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void goToScoreBoard(){
+        Intent intent = new Intent(this, ScoreboardActivity.class);
+        intent.putExtra("points", pointCounter.getAllPoints());
+        startActivity(intent);
+    }
 }

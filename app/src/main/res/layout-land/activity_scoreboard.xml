@@ -69,7 +69,7 @@
                 android:text="@string/low"
                 />
             <TextView
-                android:id="@+id/score_low"
+                android:id="@+id/score_Low"
                 style ="@style/results_textView_landscape"
                 android:text="@string/score_low"
                 android:layout_marginTop="@dimen/margin_top_scoreboard"
@@ -265,7 +265,7 @@
         />
 
     <TextView
-        android:id="@+id/total_score_scoreboard"
+        android:id="@+id/score_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/total_score_scoreboard"

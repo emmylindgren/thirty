@@ -112,4 +112,9 @@ public class PointCounter {
     public String getLatestRoundPointsString(){
         return Integer.toString(latestRoundPoints);
     }
+
+    public HashMap getAllPoints(){
+        roundPoints.put("total",totalPoints);
+        return roundPoints;
+    }
 }
