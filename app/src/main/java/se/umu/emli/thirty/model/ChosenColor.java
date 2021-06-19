@@ -16,6 +16,12 @@ public class ChosenColor {
         chosenColor= Constants.WHITE;
     }
 
+    public ChosenColor(int chosenColor,int colorButtonId){
+        this.chosenColor = chosenColor;
+        this.colorButtonId = colorButtonId;
+        oldColorButtonId = colorButtonId;
+    }
+
     public int getChosenColor() {
         return chosenColor;
     }

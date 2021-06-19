@@ -13,6 +13,11 @@ import java.util.Locale;
 
 import se.umu.emli.thirty.R;
 
+/** ScoreBoard activity controller class. Shows the results from Main activity,and starts
+ * another round of thirty.
+ * @author Emmy Lindgren, emli.
+ * @version 1.0
+ */
 public class ScoreboardActivity extends AppCompatActivity {
 
     private HashMap<String, Integer> points;
@@ -28,7 +33,6 @@ public class ScoreboardActivity extends AppCompatActivity {
         setPoints();
 
         findViewById(R.id.play_again).setOnClickListener(v -> startAnotherRound());
-
     }
 
     private void setPoints(){

@@ -22,6 +22,13 @@ public class PointCounter {
         initColorHashMap();
     }
 
+    public PointCounter(HashMap points, int latestRoundPoints){
+        roundPoints = points;
+        totalPoints= roundPoints.get("total");
+        this.latestRoundPoints = latestRoundPoints;
+        initColorHashMap();
+    }
+
     private void initColorHashMap(){
         colorPoints= new HashMap<Integer,Integer>();
         colorPoints.put(Constants.BLUE,0);
@@ -113,7 +120,14 @@ public class PointCounter {
         return Integer.toString(latestRoundPoints);
     }
 
+    public int getLatestRoundPointsInt(){ return latestRoundPoints;}
+
     public HashMap getAllPoints(){
+
+        if(roundPoints.containsKey("total")){
+            roundPoints.remove("total");
+        }
+
         roundPoints.put("total",totalPoints);
         return roundPoints;
     }

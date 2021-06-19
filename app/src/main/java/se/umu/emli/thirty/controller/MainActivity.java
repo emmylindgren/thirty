@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import se.umu.emli.thirty.R;
 import se.umu.emli.thirty.model.ChosenColor;
@@ -42,6 +43,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState == null){
+            setUpNew();
+        }
+        else{
+           setUpPrevious(savedInstanceState);
+        }
+
+        setUpDiceListeners();
+        setUpColorListeners();
+        setUpSpinner();
+
+        findViewById(R.id.throw_dices).setOnClickListener(v -> throwDices());
+        findViewById(R.id.collect_points).setOnClickListener(v -> collectPoints());
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList("Dices",diceBank);
+        outState.putStringArrayList("Rounds",rounds);
+
+        outState.putSerializable("Points", pointCounter.getAllPoints());
+        outState.putInt("LatestPoint",pointCounter.getLatestRoundPointsInt());
+
+        outState.putInt("NrOfThrows",throwCounter.nrOfThrows);
+
+        outState.putInt("ChosenColor",chosenColor.getChosenColor());
+        outState.putInt("ChosenColorButton",chosenColor.getColorButtonId());
+    }
+
+    private void setUpNew(){
         diceBank = new ArrayList<>(Arrays.asList(
                 new Dice(R.id.dice1),
                 new Dice(R.id.dice2),
@@ -51,26 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 new Dice(R.id.dice6)
         ));
 
-        setUpDiceListeners();
-        setUpColorListeners();
-        setUpSpinner();
-
-        pointCounter = new PointCounter();
-        throwCounter = new ThrowCounter(0);
-        chosenColor = new ChosenColor();
-
-        //Listener for throw dices button. If button is clicked @throwDices is called.
-        findViewById(R.id.throw_dices).setOnClickListener(v -> throwDices());
-
-        //Listener for the collect points button. If button is clicked @collectPoints is called.
-        findViewById(R.id.collect_points).setOnClickListener(v -> collectPoints());
-
-    }
-
-    /**
-     * Sets up spinner for choosing which round to be played.
-     */
-    private void setUpSpinner() {
         rounds = new ArrayList<>(Arrays.asList(
                 "Low",
                 "4",
@@ -83,6 +96,39 @@ public class MainActivity extends AppCompatActivity {
                 "11",
                 "12"
         ));
+
+        pointCounter = new PointCounter();
+
+        throwCounter = new ThrowCounter(0);
+
+        chosenColor = new ChosenColor();
+    }
+
+    private void setUpPrevious(Bundle savedInstanceState){
+
+        diceBank = savedInstanceState.getParcelableArrayList("Dices");
+        for(Dice dice : diceBank){
+            updateDice(dice);
+        }
+
+        rounds = savedInstanceState.getStringArrayList("Rounds");
+
+        HashMap points = (HashMap) savedInstanceState.getSerializable("Points");
+        int latestPoint = savedInstanceState.getInt("LatestPoint");
+        pointCounter = new PointCounter(points,latestPoint);
+        updatePointsInView();
+
+        throwCounter = new ThrowCounter(savedInstanceState.getInt("NrOfThrows"));
+        chosenColor = new ChosenColor(savedInstanceState.getInt("ChosenColor"),
+                savedInstanceState.getInt("ChosenColorButton"));
+        updateChosenColorButtons();
+
+    }
+
+    /**
+     * Sets up spinner for choosing which round to be played.
+     */
+    private void setUpSpinner() {
         spinner = findViewById(R.id.spinner);
         makeSpinner();
     }
@@ -130,14 +176,18 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Sets the chosen color to that of the users choice, and updates the button
-     * with a checkmark.If an old color is chosen that button is unchecked.
+     * with a checkmark. If an old color is chosen that button is unchecked.
      * @param buttonId, the button that represents the color.
      * @param color, the color to be set.
      */
     private void setChosenColor(int buttonId, int color){
         chosenColor.setChosenColor(color);
         chosenColor.setColorButtonId(buttonId);
-        ImageButton newColor = findViewById(buttonId);
+        updateChosenColorButtons();
+    }
+
+    private void updateChosenColorButtons(){
+        ImageButton newColor = findViewById(chosenColor.getColorButtonId());
         newColor.setImageResource(R.drawable.check);
 
         if(chosenColor.hasOldColorButton()){
@@ -145,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
             oldColorButton.setImageResource(android.R.color.transparent);
         }
 
-        chosenColor.setOldColorButtonId(buttonId);
+        chosenColor.setOldColorButtonId(chosenColor.getColorButtonId());
+
     }
 
     /**
@@ -288,7 +339,6 @@ public class MainActivity extends AppCompatActivity {
             throwCounter.resetThrows();
             clearDiceColors();
 
-
             rounds.remove(text);
             makeSpinner();
         }
@@ -314,6 +364,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Starts the ScoreBoard activity and sends it the points.
+     */
     private void goToScoreBoard(){
         Intent intent = new Intent(this, ScoreboardActivity.class);
         intent.putExtra("points", pointCounter.getAllPoints());
