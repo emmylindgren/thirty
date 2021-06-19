@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
            setUpPrevious(savedInstanceState);
+           savedInstanceState.clear();
         }
 
         setUpDiceListeners();
