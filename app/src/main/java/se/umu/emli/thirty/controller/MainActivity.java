@@ -1,5 +1,6 @@
 package se.umu.emli.thirty.controller;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
 import se.umu.emli.thirty.R;
 import se.umu.emli.thirty.model.ChosenColor;
 import se.umu.emli.thirty.model.Constants;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState (Bundle outState) {
+    protected void onSaveInstanceState (@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putParcelableArrayList("Dices",diceBank);
@@ -69,20 +69,23 @@ public class MainActivity extends AppCompatActivity {
         outState.putSerializable("Points", pointCounter.getAllPoints());
         outState.putInt("LatestPoint",pointCounter.getLatestRoundPointsInt());
 
-        outState.putInt("NrOfThrows",throwCounter.nrOfThrows);
+        outState.putInt("NrOfThrows",throwCounter.getNrOfThrows());
 
         outState.putInt("ChosenColor",chosenColor.getChosenColor());
         outState.putInt("ChosenColorButton",chosenColor.getColorButtonId());
     }
 
+    /**
+     * Sets up a new game.
+     */
     private void setUpNew(){
         diceBank = new ArrayList<>(Arrays.asList(
-                new Dice(R.id.dice1),
-                new Dice(R.id.dice2),
-                new Dice(R.id.dice3),
-                new Dice(R.id.dice4),
-                new Dice(R.id.dice5),
-                new Dice(R.id.dice6)
+                new Dice(R.id.dice1,1),
+                new Dice(R.id.dice2,2),
+                new Dice(R.id.dice3,3),
+                new Dice(R.id.dice4,4),
+                new Dice(R.id.dice5,5),
+                new Dice(R.id.dice6,6)
         ));
 
         rounds = new ArrayList<>(Arrays.asList(
@@ -105,6 +108,10 @@ public class MainActivity extends AppCompatActivity {
         chosenColor = new ChosenColor();
     }
 
+    /**
+     * Sets up a game from Bundle.
+     * @param savedInstanceState, the bundle containing game info.
+     */
     private void setUpPrevious(Bundle savedInstanceState){
 
         diceBank = savedInstanceState.getParcelableArrayList("Dices");
@@ -188,16 +195,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateChosenColorButtons(){
-        ImageButton newColor = findViewById(chosenColor.getColorButtonId());
-        newColor.setImageResource(R.drawable.check);
+        if(chosenColor.getColorButtonId() != 0){
+            ImageButton newColor = findViewById(chosenColor.getColorButtonId());
+            newColor.setImageResource(R.drawable.check);
 
-        if(chosenColor.hasOldColorButton()){
-            ImageButton oldColorButton = findViewById(chosenColor.getOldColorButtonId());
-            oldColorButton.setImageResource(android.R.color.transparent);
+            if(chosenColor.hasOldColorButton()){
+                ImageButton oldColorButton = findViewById(chosenColor.getOldColorButtonId());
+                oldColorButton.setImageResource(android.R.color.transparent);
+            }
+            chosenColor.setOldColorButtonId(chosenColor.getColorButtonId());
         }
-
-        chosenColor.setOldColorButtonId(chosenColor.getColorButtonId());
-
     }
 
     /**

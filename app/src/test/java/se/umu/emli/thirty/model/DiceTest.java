@@ -10,7 +10,7 @@ public class DiceTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        dice = new Dice(1);
+        dice = new Dice(1, 1);
     }
 
     /**
@@ -20,7 +20,7 @@ public class DiceTest {
     @org.junit.Test
     public void getDiceNr() {
         int randomNum = ThreadLocalRandom.current().nextInt(1, 100);
-        Dice randomDice = new Dice(randomNum);
+        Dice randomDice = new Dice(randomNum, 1);
 
         assertEquals(1,dice.getDiceId());
         assertEquals(randomNum,randomDice.getDiceId());

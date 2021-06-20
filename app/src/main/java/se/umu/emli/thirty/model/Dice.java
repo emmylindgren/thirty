@@ -14,39 +14,10 @@ public class Dice implements Parcelable {
     private int diceValue;
     private int diceColor;
 
-    protected Dice(Parcel in) {
-        diceId = in.readInt();
-        diceValue = in.readInt();
-        diceColor = in.readInt();
-    }
-
-    public static final Creator<Dice> CREATOR = new Creator<Dice>() {
-        @Override
-        public Dice createFromParcel(Parcel in) {
-            return new Dice(in);
-        }
-
-        @Override
-        public Dice[] newArray(int size) {
-            return new Dice[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(diceId);
-        dest.writeInt(diceValue);
-        dest.writeInt(diceColor);
-    }
-
-    public Dice(int diceId) {
+    public Dice(int diceId, int diceValue) {
         this.diceId = diceId;
         diceColor= Constants.WHITE;
+        this.diceValue = diceValue;
     }
 
     public int getDiceId(){return diceId;}
@@ -85,5 +56,36 @@ public class Dice implements Parcelable {
     private boolean diceIsNotColored(){
         return diceColor == Constants.WHITE;
     }
+
+    protected Dice(Parcel in) {
+        diceId = in.readInt();
+        diceValue = in.readInt();
+        diceColor = in.readInt();
+    }
+
+    public static final Creator<Dice> CREATOR = new Creator<Dice>() {
+        @Override
+        public Dice createFromParcel(Parcel in) {
+            return new Dice(in);
+        }
+
+        @Override
+        public Dice[] newArray(int size) {
+            return new Dice[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(diceId);
+        dest.writeInt(diceValue);
+        dest.writeInt(diceColor);
+    }
+
 
 }

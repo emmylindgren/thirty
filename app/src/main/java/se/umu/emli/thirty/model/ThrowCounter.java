@@ -41,4 +41,8 @@ public class ThrowCounter {
         }
     }
 
+    public int getNrOfThrows(){
+        return nrOfThrows;
+    }
+
 }
