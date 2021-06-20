@@ -2,6 +2,7 @@
     <string name="app_name">Thirty</string>
     <string name="throw_dices">Throw</string>
     <string name="collect_points">Collect points</string>
+    <string name="go_to_scoreboard">See scoreboard</string>
     <string name="group_color">Group color</string>
     <string name="round_score_text">Round score: </string>
     <string name="round_score">0</string>

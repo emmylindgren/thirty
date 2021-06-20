@@ -2,12 +2,14 @@ package se.umu.emli.thirty.controller;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
         if(savedInstanceState == null){
@@ -343,17 +346,18 @@ public class MainActivity extends AppCompatActivity {
             String text = spinner.getSelectedItem().toString();
 
             pointCounter.countRoundPoint(text, diceBank);
-            updatePointsInView();
             throwCounter.resetThrows();
             clearDiceColors();
-
             rounds.remove(text);
+
             makeSpinner();
+            updatePointsInView();
         }
     }
 
     /**
-     * Updates the points in the view for the user to see.
+     * Updates the points in the view for the user to see. Also updates collect points button
+     * to read "See scoreboard" if all rounds are played.
      */
     private void updatePointsInView(){
         TextView totalScore = findViewById(R.id.total_score);
@@ -361,6 +365,11 @@ public class MainActivity extends AppCompatActivity {
 
         totalScore.setText(pointCounter.getTotalPointsString());
         roundScore.setText(pointCounter.getLatestRoundPointsString());
+
+        if(rounds.isEmpty()){
+            Button collect = findViewById(R.id.collect_points);
+            collect.setText(R.string.go_to_scoreboard);
+        }
     }
 
     /**
