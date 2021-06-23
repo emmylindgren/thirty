@@ -40,9 +40,9 @@ public class PointCounter {
     }
 
     /**
-     * Counts the points of the dices for the selected round. For round "low" all dices are counted
-     * independently of colors. But for other rounds the points are sorted into color points and
-     * then counts the color points separately to make sure no color is cheating.
+     * Counts the points of the dices for the selected round. For round "low" all colored dices with
+     * a value of 3 or under are counted. But for other rounds the points are sorted into color
+     * points and then counts the color points separately to make sure no color is cheating.
      *
      * Adds that round point to arraylist of round points to keep track of, updates total and latest
      * round points.
@@ -71,8 +71,10 @@ public class PointCounter {
         int point= 0;
 
         for (Dice dice : dices){
-            if(dice.getDiceValue()<4){
-                point += dice.getDiceValue();
+            if(dice.diceIsColored()){
+                if(dice.getDiceValue()<4){
+                    point += dice.getDiceValue();
+                }
             }
         }
         return point;
@@ -80,7 +82,7 @@ public class PointCounter {
 
     private void sortColorPoints(){
         for (Dice dice: dices){
-            if(dice.getDiceColor()!=Constants.WHITE){
+            if(dice.diceIsColored()){
                 int i = colorPoints.get(dice.getDiceColor());
                 i += dice.getDiceValue();
                 colorPoints.remove(dice.getDiceColor());

@@ -43,7 +43,7 @@ public class Dice implements Parcelable {
      * Rolls the dice if and only if the dice is colored white, AKA uncolored.
      */
     public void rollDice(){
-        if(diceIsNotColored()){
+        if(!diceIsColored()){
             this.diceValue = ThreadLocalRandom.current().nextInt(1, 7);
         }
     }
@@ -53,8 +53,8 @@ public class Dice implements Parcelable {
      * anything other than white.
      * @return boolean to tell if the dice is colored or not.
      */
-    private boolean diceIsNotColored(){
-        return diceColor == Constants.WHITE;
+    public boolean diceIsColored(){
+        return diceColor != Constants.WHITE;
     }
 
     protected Dice(Parcel in) {

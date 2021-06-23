@@ -26,6 +26,7 @@ import se.umu.emli.thirty.model.PointCounter;
 import se.umu.emli.thirty.model.ThrowCounter;
 
 /** Main activity controller class. Throws dices, collects and keeps track of scores.
+ * Color a dice to lock it and to count it.
  * @author Emmy Lindgren, emli.
  * @version 1.0
  */
@@ -37,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ThrowCounter throwCounter;
     private Spinner spinner;
+    private int spinnerPos;
     private ArrayList<String> rounds;
+
+    private boolean pointsAreCollected;
 
 
     @Override
@@ -57,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         setUpDiceListeners();
         setUpColorListeners();
         setUpSpinner();
+        if(spinnerPos != 0){
+            spinner.setSelection(spinnerPos);
+        }
 
         findViewById(R.id.throw_dices).setOnClickListener(v -> throwDices());
         findViewById(R.id.collect_points).setOnClickListener(v -> collectPoints());
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         outState.putParcelableArrayList("Dices",diceBank);
         outState.putStringArrayList("Rounds",rounds);
+        outState.putInt("SpinnerPos", spinner.getSelectedItemPosition());
 
         outState.putSerializable("Points", pointCounter.getAllPoints());
         outState.putInt("LatestPoint",pointCounter.getLatestRoundPointsInt());
@@ -76,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         outState.putInt("ChosenColor",chosenColor.getChosenColor());
         outState.putInt("ChosenColorButton",chosenColor.getColorButtonId());
+
+        outState.putBoolean("PointsAreCollected",pointsAreCollected);
     }
 
     /**
@@ -103,12 +113,15 @@ public class MainActivity extends AppCompatActivity {
                 "11",
                 "12"
         ));
+        spinnerPos =0;
 
         pointCounter = new PointCounter();
 
         throwCounter = new ThrowCounter(0);
 
         chosenColor = new ChosenColor();
+
+        pointsAreCollected = false;
     }
 
     /**
@@ -123,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         rounds = savedInstanceState.getStringArrayList("Rounds");
+        spinnerPos= savedInstanceState.getInt("SpinnerPos");
+
 
         HashMap points = (HashMap) savedInstanceState.getSerializable("Points");
         int latestPoint = savedInstanceState.getInt("LatestPoint");
@@ -133,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
         chosenColor = new ChosenColor(savedInstanceState.getInt("ChosenColor"),
                 savedInstanceState.getInt("ChosenColorButton"));
         updateChosenColorButtons();
+
+        pointsAreCollected = savedInstanceState.getBoolean("PointsAreCollected");
 
     }
 
@@ -152,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
     }
 
     /**
@@ -236,6 +254,10 @@ public class MainActivity extends AppCompatActivity {
             toast.show();
         }
         else{
+            if(pointsAreCollected){
+                clearDiceColors();
+                pointsAreCollected = false;
+            }
             for(Dice dice : diceBank){
                 dice.rollDice();
                 updateDice(dice);
@@ -347,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
             pointCounter.countRoundPoint(text, diceBank);
             throwCounter.resetThrows();
-            clearDiceColors();
+            pointsAreCollected= true;
             rounds.remove(text);
 
             makeSpinner();
