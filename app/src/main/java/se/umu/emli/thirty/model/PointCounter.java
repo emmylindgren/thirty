@@ -93,7 +93,8 @@ public class PointCounter {
 
     /**
      * Checks each color to se if points are equal to the chosen round number, or a multiple
-     * of the chosen round number. If they are the points are added to the round point.
+     * of the chosen round number. If they are the points are returned, otherwise zero points
+     * is returned.
      * @param roundNr, the chosen round number.
      * @return the collected round points of all colors that passed.
      */
